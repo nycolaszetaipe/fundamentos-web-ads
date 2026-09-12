@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p{
+    color:darkred;
+}
+
+h1{
+    color:cadetblue;
+}
+
+.footer{
+    color:aqua;
+}
+
+#email{
+    height:30px;
+    background-color: lightgray;
+    border-radius:25px;
+}
