@@ -46,6 +46,8 @@ nav a:hover{
 
 nav ul {
     list-style: none;
+    display: flex;
+    gap: 20px;
 }
 
 nav li {
@@ -96,10 +98,17 @@ header {
     color: white;
     padding: 20px;
     text-align: center;
+    display: flex;
+    justify-content: space-between; /* Deixando a logo de um lado e menu do outro */
+    align-items: center; /* Ambos centralizados verticalmente */
+    flex-wrap: wrap; /* Em telas menores o menu quebra linha */
 }
 
 header .logo{
     margin-bottom: 10px;
+    display: flex; /* Flexbox tenho da logo para alinhar imagem e título */
+    align-items: center;
+    gap: 10px;
 }
 
 header .logo img {
