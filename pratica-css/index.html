@@ -93,6 +93,34 @@
                     <p>05/10/2026, Praça Central</p>
                 </div>
             </div>
+
+            <div class="experiencia-evento">
+                <div class="midia-evento">
+                    <div>
+                        <h3>Conheça o evento</h3>
+                        <video id="videoEvento" preload="metadata" playsinline controls>
+                            <source src="../video.mp4" type="video/mp4">
+                            Seu navegador não suporta a reprodução de vídeo.
+                        </video>
+                        <div class="controles-midia">
+                            <button id="btnPlayVideo" type="button" aria-controls="videoEvento" aria-pressed="false">Reproduzir trailer</button>
+                            <p id="tempoVideo" aria-live="off">00:00 / 00:00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="local-evento">
+                    <div>
+                        <h3>Como chegar</h3>
+                        <p>Arena Franca, Franca - SP</p>
+                    </div>
+                    <iframe
+                        src="https://maps.google.com/maps?q=Arena+Franca%2C+Franca%2C+SP&z=16&output=embed"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Mapa da Arena Franca, em Franca - SP"></iframe>
+                </div>
+            </div>
         </section>
     </main>
 
@@ -100,5 +128,51 @@
         <p>&copy; 2026 IngressosFácil - Todos os direitos reservados</p>
     </footer>
 
+    <script>
+        function formatarTempo(segundos) {
+            if (!Number.isFinite(segundos)) return '00:00';
+            const minutos = Math.floor(segundos / 60);
+            const restante = Math.floor(segundos % 60).toString().padStart(2, '0');
+            return `${minutos}:${restante}`;
+        }
+
+        function criarControlesDeMidia(idMedia, idBotao, idTempo) {
+            const media = document.getElementById(idMedia);
+            const botao = document.getElementById(idBotao);
+            const tempo = document.getElementById(idTempo);
+
+            if (!media || !botao || !tempo) return;
+
+            botao.addEventListener('click', async function () {
+                if (media.paused) {
+                    try {
+                        await media.play();
+                    } catch {
+                        tempo.textContent = 'Não foi possível reproduzir este vídeo.';
+                    }
+                } else {
+                    media.pause();
+                }
+            });
+
+            function atualizarEstado() {
+                const pausado = media.paused;
+                botao.textContent = pausado ? 'Reproduzir trailer' : 'Pausar trailer';
+                botao.setAttribute('aria-pressed', String(!pausado));
+            }
+
+            function atualizarTempo() {
+                tempo.textContent = `${formatarTempo(media.currentTime)} / ${formatarTempo(media.duration)}`;
+            }
+
+            media.addEventListener('loadedmetadata', atualizarTempo);
+            media.addEventListener('timeupdate', atualizarTempo);
+            media.addEventListener('play', atualizarEstado);
+            media.addEventListener('pause', atualizarEstado);
+            media.addEventListener('ended', atualizarEstado);
+        }
+
+        criarControlesDeMidia('videoEvento', 'btnPlayVideo', 'tempoVideo');
+    </script>
 </body>
 </html>
